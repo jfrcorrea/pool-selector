@@ -1,0 +1,35 @@
+[tool.black]
+line-length = 121
+
+[tool.isort]
+line_length = 121
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.poetry]
+name = "pool-selector"
+version = "0.1.0"
+description = ""
+authors = ["João Corrêa <jfrcorrea@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.11.2"
+isort = "^5.13.2"
+black = "^24.10.0"
+flake8-docstrings = "^1.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+warn_no_return = false
