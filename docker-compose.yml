@@ -11,7 +11,7 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
     healthcheck:
-      test: [ "CMD", "awslocal", "s3api", "wait", "bucket-exists", "--bucket", "pools-info" ]
+      test: [ "CMD", "awslocal", "s3api", "wait", "bucket-exists", "--bucket", "${S3_BUCKET_NAME}" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -25,4 +25,17 @@ services:
       - --endpoint-url=http://${LOCALSTACK_URL}:${LOCALSTACK_PORT}
       - s3
       - mb
-      - s3://pools-info
+      - s3://${S3_BUCKET_NAME}
+
+  event_generator:
+    build:
+      context: .
+      dockerfile: src/event_generator/Dockerfile
+    environment:
+      - LOCALSTACK_PORT=${LOCALSTACK_PORT}
+      - LOCALSTACK_URL=${LOCALSTACK_URL}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - S3_FILE_NAME=${S3_FILE_NAME}
+    depends_on:
+      localstack:
+        condition: service_healthy

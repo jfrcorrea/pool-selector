@@ -4,8 +4,36 @@ from dataclasses import dataclass
 from datetime import datetime
 import json
 
-STATUS_LIST = ["SUCCEEDED", "FAILED"]
-REASON_LIST = ["SPOT_INSTANCE_TERMINATION", "TIMED_OUT", "SPARK_EXECUTION_ERROR"]
+# Lista de Status possíveis.
+STATUS_LIST = [
+    "SUCCEEDED",
+    "FAILED",
+]
+
+# Lista de valores possíveis para o atributo `reason`.
+REASON_LIST = [
+    "SPOT_INSTANCE_TERMINATION",
+    "TIMED_OUT",
+    "SPARK_EXECUTION_ERROR",
+]
+
+# Instâncias de exemplo para geração de eventos de teste.
+INSTANCE_TYPES = [
+    "i3.xlarge",
+    "i4g.xlarge",
+    "r6a.xlarge",
+    "c6a.xlarge",
+    "r6a.xlarge",
+]
+
+# Lista de zonas de disponibilidade da AWS (AZs) de exemplo
+AZS = [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1e",
+]
 
 
 @dataclass
@@ -18,7 +46,7 @@ class SparkEvent:
     status: str
     reason: str
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Valida os atributos."""
 
         # Valida o atributo `finished_at`
@@ -32,7 +60,7 @@ class SparkEvent:
         assert self.status in STATUS_LIST, f"`{self.status}` é um status inválido"
 
         # Valida o atributo `reason`
-        assert self.reason in REASON_LIST, f"`{self.reason}` é um reason inválido"
+        assert self.reason in REASON_LIST or self.reason == "", f"`{self.reason}` é um reason inválido"
 
     def to_json(self) -> str:
         """Retorna o evento em formato JSON.
