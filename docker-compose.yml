@@ -38,6 +38,8 @@ services:
       - LOCALSTACK_URL=${LOCALSTACK_URL}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
       - S3_FILE_NAME=${S3_FILE_NAME}
+      - AWS_KEY_ID=${AWS_KEY_ID}
+      - AWS_SECRET=${AWS_SECRET}
     depends_on:
       localstack:
         condition: service_healthy
@@ -46,6 +48,13 @@ services:
     build:
       context: .
       dockerfile: src/web_app/Dockerfile
+    environment:
+      - LOCALSTACK_PORT=${LOCALSTACK_PORT}
+      - LOCALSTACK_URL=${LOCALSTACK_URL}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - S3_FILE_NAME=${S3_FILE_NAME}
+      - AWS_KEY_ID=${AWS_KEY_ID}
+      - AWS_SECRET=${AWS_SECRET}
     deploy:
       resources:
         limits:
@@ -63,6 +72,13 @@ services:
     build:
       context: .
       dockerfile: src/web_app/Dockerfile
+    environment:
+      - LOCALSTACK_PORT=${LOCALSTACK_PORT}
+      - LOCALSTACK_URL=${LOCALSTACK_URL}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - S3_FILE_NAME=${S3_FILE_NAME}
+      - AWS_KEY_ID=${AWS_KEY_ID}
+      - AWS_SECRET=${AWS_SECRET}
     deploy:
       resources:
         limits:

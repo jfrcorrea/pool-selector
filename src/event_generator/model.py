@@ -23,7 +23,7 @@ INSTANCE_TYPES = [
     "i4g.xlarge",
     "r6a.xlarge",
     "c6a.xlarge",
-    "r6a.xlarge",
+    "m6a.xlarge",
 ]
 
 # Lista de zonas de disponibilidade da AWS (AZs) de exemplo

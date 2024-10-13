@@ -12,10 +12,12 @@ import boto3.s3
 
 import model
 
-LOCALSTACK_PORT = os.environ["LOCALSTACK_PORT"]
-LOCALSTACK_URL = os.environ["LOCALSTACK_URL"]
+LOCALSTACK_PORT = os.environ.get("LOCALSTACK_PORT")
+LOCALSTACK_URL = os.environ.get("LOCALSTACK_URL")
 S3_BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
 S3_FILE_NAME = os.environ["S3_FILE_NAME"]
+AWS_KEY_ID = os.environ["AWS_KEY_ID"]
+AWS_SECRET = os.environ["AWS_SECRET"]
 
 
 def get_s3_client() -> boto3.client:
@@ -25,11 +27,14 @@ def get_s3_client() -> boto3.client:
         boto3.client: O Client S3 criado.
     """
     session = boto3.session.Session()
+    endpoint_url = None
+    if LOCALSTACK_URL and LOCALSTACK_PORT:
+        endpoint_url = f"http://{LOCALSTACK_URL}:{LOCALSTACK_PORT}"
     s3_client = session.client(
         service_name="s3",
-        aws_access_key_id="aaa",
-        aws_secret_access_key="bbb",
-        endpoint_url=f"http://{LOCALSTACK_URL}:{LOCALSTACK_PORT}",
+        aws_access_key_id=AWS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET,
+        endpoint_url=endpoint_url,
     )
 
     return s3_client
@@ -65,6 +70,8 @@ def main() -> None:
     """
 
     s3_client = get_s3_client()
+
+    random.seed()
 
     while True:
         status = random.choice(model.STATUS_LIST)
