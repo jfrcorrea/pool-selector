@@ -19,6 +19,7 @@ package-mode = false
 python = ">=3.12,<3.13"
 boto3 = "1.35.39"
 duckdb = "1.1.1"
+fastapi = {extras = ["standard"], version = "0.115.2"}
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.11.2"

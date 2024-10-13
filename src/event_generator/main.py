@@ -58,7 +58,11 @@ def s3_append_data(s3_client: boto3.client, data: str) -> None:
 
 
 def main() -> None:
-    """Entrypoint do gerador de eventos de teste."""
+    """
+    Entrypoint do gerador de eventos de teste.
+
+    Fica em um loop "eterno" gerando eventos aleatórios e salvando-os no arquivo do S3.
+    """
 
     s3_client = get_s3_client()
 
@@ -72,7 +76,7 @@ def main() -> None:
             reason="" if status == "SUCCEEDED" else random.choice(model.REASON_LIST),
         )
         s3_append_data(s3_client=s3_client, data=event.to_json())
-        time.sleep(random.random() * 3)
+        time.sleep(random.random() * 2)  # Aguarda um intervalo entre 0 e 2 segundos
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ services:
 
   init-s3:
     image: localstack/localstack:3.8.1
+    container_name: init-s3
     depends_on:
       - localstack
     entrypoint:
@@ -31,6 +32,7 @@ services:
     build:
       context: .
       dockerfile: src/event_generator/Dockerfile
+    container_name: event_generator
     environment:
       - LOCALSTACK_PORT=${LOCALSTACK_PORT}
       - LOCALSTACK_URL=${LOCALSTACK_URL}
@@ -39,3 +41,48 @@ services:
     depends_on:
       localstack:
         condition: service_healthy
+
+  webapp1:
+    build:
+      context: .
+      dockerfile: src/web_app/Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 512 M
+      restart_policy:
+        condition: any
+    container_name: webapp1
+    ports:
+      - "5001:5050"
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  webapp2:
+    build:
+      context: .
+      dockerfile: src/web_app/Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 512 M
+      restart_policy:
+        condition: any
+    container_name: webapp2
+    ports:
+      - "5002:5050"
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "5050:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - webapp1
+      - webapp2

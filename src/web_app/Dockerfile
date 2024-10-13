@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm
+FROM python:3.12-alpine
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
@@ -21,6 +21,6 @@ RUN poetry install --only=main --no-ansi
 
 WORKDIR /code
 
-COPY src/event_generator/* .
+COPY src/web_app/* /code/app/
 
-CMD [ "python", "main.py"]
+CMD ["fastapi", "run", "app/main.py", "--port", "5050"]
