@@ -1,15 +1,14 @@
 """Aplicação para gerar eventos de teste."""
 
+import os
 import random
 import time
-import os
 from datetime import datetime, timezone
 from uuid import uuid4
 
 import boto3
 import boto3.exceptions
 import boto3.s3
-
 import model
 
 LOCALSTACK_PORT = os.environ.get("LOCALSTACK_PORT")

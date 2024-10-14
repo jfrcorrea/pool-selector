@@ -29,9 +29,7 @@ services:
       - s3://${S3_BUCKET_NAME}
 
   event_generator:
-    build:
-      context: .
-      dockerfile: src/event_generator/Dockerfile
+    image: jfrcorrea/event_generator:latest
     container_name: event_generator
     environment:
       - LOCALSTACK_PORT=${LOCALSTACK_PORT}
@@ -45,9 +43,8 @@ services:
         condition: service_healthy
 
   webapp1:
-    build:
-      context: .
-      dockerfile: src/web_app/Dockerfile
+    image: jfrcorrea/web_app:latest
+    container_name: webapp1
     environment:
       - LOCALSTACK_PORT=${LOCALSTACK_PORT}
       - LOCALSTACK_URL=${LOCALSTACK_URL}
@@ -61,7 +58,6 @@ services:
           memory: 512 M
       restart_policy:
         condition: any
-    container_name: webapp1
     ports:
       - "5001:5050"
     depends_on:
@@ -69,9 +65,8 @@ services:
         condition: service_healthy
 
   webapp2:
-    build:
-      context: .
-      dockerfile: src/web_app/Dockerfile
+    image: jfrcorrea/web_app:latest
+    container_name: webapp2
     environment:
       - LOCALSTACK_PORT=${LOCALSTACK_PORT}
       - LOCALSTACK_URL=${LOCALSTACK_URL}
@@ -85,7 +80,6 @@ services:
           memory: 512 M
       restart_policy:
         condition: any
-    container_name: webapp2
     ports:
       - "5002:5050"
     depends_on:
@@ -102,3 +96,12 @@ services:
     depends_on:
       - webapp1
       - webapp2
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30 event_generator webapp1 webapp2

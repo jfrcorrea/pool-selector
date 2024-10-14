@@ -38,3 +38,7 @@ python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 warn_no_return = false
+
+[[tool.mypy.overrides]]
+module = ['boto3.*']
+ignore_missing_imports = true
