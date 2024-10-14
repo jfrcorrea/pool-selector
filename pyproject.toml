@@ -27,6 +27,7 @@ isort = "^5.13.2"
 black = "^24.10.0"
 flake8-docstrings = "^1.7.0"
 ipykernel = "^6.29.5"
+pytest = "^8.3.3"
 
 [build-system]
 requires = ["poetry-core"]
