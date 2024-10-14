@@ -1,8 +1,8 @@
 """Declaração das classes de dados."""
 
+import json
 from dataclasses import dataclass
 from datetime import datetime
-import json
 
 # Lista de Status possíveis.
 STATUS_LIST = [
@@ -68,4 +68,5 @@ class SparkEvent:
         Returns:
             str: O evento em formato JSON
         """
+
         return json.dumps(self.__dict__)
