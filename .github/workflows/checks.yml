@@ -89,11 +89,9 @@ jobs:
           then
               echo "Modificações encontradas:"
               echo $changed_files
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git add ./\*.py
-              git diff-index --quiet HEAD || git commit -m "Automated changed files"
-              git push origin HEAD:${{ github.head_ref }}
+              echo ""
+              echo "Favor corrigir as alterações apontadas antes de prosseguir com o PR."
+              exit 1
           else
               echo "Não houveram modificações"
           fi
