@@ -68,5 +68,4 @@ class SparkEvent:
         Returns:
             str: O evento em formato JSON
         """
-
         return json.dumps(self.__dict__)
