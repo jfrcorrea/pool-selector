@@ -81,7 +81,7 @@ jobs:
             poetry run mypy $file
           done
       
-      - name: Commit changes
+      - name: Check if any change is required
         if: steps.changed-python-files.outputs.any_changed == 'true'
         run: |
           changed_files=$(git status --porcelain)
