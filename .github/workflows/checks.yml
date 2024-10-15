@@ -96,6 +96,6 @@ jobs:
               echo "Não houveram modificações"
           fi
 
-      # - name: Run tests
-      #   run: |
-      #     poetry run pytest tests/
+      - name: Run tests
+        run: |
+          poetry run pytest tests/
