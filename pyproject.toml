@@ -5,7 +5,8 @@ line-length = 121
 line_length = 121
 
 [tool.pytest.ini_options]
-pythonpath = ["."]
+env_files = [".env"]
+pythonpath = ["src/"]
 
 [tool.poetry]
 name = "pool-selector"
@@ -28,6 +29,7 @@ black = "^24.10.0"
 flake8-docstrings = "^1.7.0"
 ipykernel = "^6.29.5"
 pytest = "^8.3.3"
+pytest-dotenv = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -38,6 +40,7 @@ python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 warn_no_return = false
+mypy_path = "src"
 
 [[tool.mypy.overrides]]
 module = ['boto3.*']

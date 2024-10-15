@@ -21,6 +21,8 @@ RUN poetry install --only=main --no-ansi
 
 WORKDIR /code
 
-COPY src/event_generator/* .
+COPY src/event_generator/* /code/src/event_generator/
 
-CMD [ "python", "main.py"]
+ENV PYTHONPATH='/code/src'
+
+CMD [ "python", "src/event_generator/main.py"]

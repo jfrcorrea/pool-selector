@@ -9,7 +9,8 @@ from uuid import uuid4
 import boto3
 import boto3.exceptions
 import boto3.s3
-import model
+
+from event_generator import model
 
 LOCALSTACK_PORT = os.environ.get("LOCALSTACK_PORT")
 LOCALSTACK_URL = os.environ.get("LOCALSTACK_URL")
@@ -43,6 +44,7 @@ def s3_append_data(s3_client: boto3.client, data: str) -> None:
     """Adiciona dados a um objeto no S3.
 
     Args:
+        s3_client (boto3.client): Client instanciado do S3.
         data (str): Os dados a serem adicionados.
     """
     try:
@@ -61,6 +63,23 @@ def s3_append_data(s3_client: boto3.client, data: str) -> None:
     s3_client.put_object(Body=object_data_str.encode(), Bucket=S3_BUCKET_NAME, Key=S3_FILE_NAME)
 
 
+def send_random_data(s3_client: boto3.client) -> None:
+    """Envia um evento de Spark Job aleatório para o S3.
+
+    Args:
+        s3_client (boto3.client): Client instanciado do S3.
+    """
+    status = random.choice(model.STATUS_LIST)
+    event = model.SparkEvent(
+        finished_at=datetime.now(timezone.utc).isoformat()[:-6],
+        job_id=str(uuid4()),
+        pool_id=f"pool-{random.choice(model.INSTANCE_TYPES)}-{random.choice(model.AZS)}",
+        status=status,
+        reason="" if status == "SUCCEEDED" else random.choice(model.REASON_LIST),
+    )
+    s3_append_data(s3_client=s3_client, data=event.to_json())
+
+
 def main() -> None:
     """
     Entrypoint do gerador de eventos de teste.
@@ -73,15 +92,7 @@ def main() -> None:
     random.seed()
 
     while True:
-        status = random.choice(model.STATUS_LIST)
-        event = model.SparkEvent(
-            finished_at=datetime.now(timezone.utc).isoformat()[:-6],
-            job_id=str(uuid4()),
-            pool_id=f"pool-{random.choice(model.INSTANCE_TYPES)}-{random.choice(model.AZS)}",
-            status=status,
-            reason="" if status == "SUCCEEDED" else random.choice(model.REASON_LIST),
-        )
-        s3_append_data(s3_client=s3_client, data=event.to_json())
+        send_random_data(s3_client)
         time.sleep(random.random() * 2)  # Aguarda um intervalo entre 0 e 2 segundos
 
 
