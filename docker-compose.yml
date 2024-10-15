@@ -52,6 +52,8 @@ services:
       - S3_FILE_NAME=${S3_FILE_NAME}
       - AWS_KEY_ID=${AWS_KEY_ID}
       - AWS_SECRET=${AWS_SECRET}
+      - EVENT_FILTER_WINDOW=${EVENT_FILTER_WINDOW}
+      - LOG_LEVEL=${LOG_LEVEL}
     deploy:
       resources:
         limits:
@@ -74,6 +76,8 @@ services:
       - S3_FILE_NAME=${S3_FILE_NAME}
       - AWS_KEY_ID=${AWS_KEY_ID}
       - AWS_SECRET=${AWS_SECRET}
+      - EVENT_FILTER_WINDOW=${EVENT_FILTER_WINDOW}
+      - LOG_LEVEL=${LOG_LEVEL}
     deploy:
       resources:
         limits:
