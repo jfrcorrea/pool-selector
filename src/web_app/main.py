@@ -35,13 +35,13 @@ def read_root() -> dict:
 
 
 @app.get("/favicon.ico", include_in_schema=False)
-def favicon() -> FileResponse:
+async def favicon() -> FileResponse:
     """Retorna o favicon.ico.
 
     Returns:
         FileResponse: Uma instância da classe FileResponse apontando para o favicon.
     """
-    return FileResponse("favicon.ico")
+    return FileResponse("app/favicon.ico")
 
 
 @app.get("/get-pool")
