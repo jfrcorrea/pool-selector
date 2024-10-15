@@ -1,6 +1,6 @@
 """Testes unitários para o módulo web_app/utils."""
 
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, call, patch
 
 from web_app import utils
 
