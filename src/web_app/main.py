@@ -13,7 +13,7 @@ S3_FILE_NAME = os.environ["S3_FILE_NAME"]
 AWS_KEY_ID = os.environ["AWS_KEY_ID"]
 AWS_SECRET = os.environ["AWS_SECRET"]
 EVENT_FILTER_WINDOW = os.environ["EVENT_FILTER_WINDOW"]
-LOG_LEVEL = os.environ.get("EVENT_FILTER_WINDOW", "INFO")
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
 # Configuração dos logs
 LOG_FORMAT = "%(asctime)s [%(levelname)s]: %(threadName)s - %(message)s"
