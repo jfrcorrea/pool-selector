@@ -5,6 +5,7 @@ import os
 
 import duckdb
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 
 from . import utils
 
@@ -31,6 +32,16 @@ def read_root() -> dict:
         dict: Um dict informando que o status do servidor está ok.
     """
     return {"status": "ok"}
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon() -> FileResponse:
+    """Retorna o favicon.ico.
+
+    Returns:
+        FileResponse: Uma instância da classe FileResponse apontando para o favicon.
+    """
+    return FileResponse("favicon.ico")
 
 
 @app.get("/get-pool")
